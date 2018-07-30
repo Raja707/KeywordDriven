@@ -18,15 +18,15 @@ public class ActionKeywords {
 	
 	public static void navigateUrl () {		
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		driver.get("https://test.salesforce.com/");
+		driver.get(Constants.url);
 	}
 	
 	public static void input_uname () {
-		driver.findElement(By.xpath("//input[@id='username']")).sendKeys("rajasingh.nadar@infosys.com.vmstdemo");
+		driver.findElement(By.xpath("//input[@id='username']")).sendKeys(Constants.uname);
 	}
 	
 	public static void input_upass () {
-		driver.findElement(By.xpath("//input[@id='password']")).sendKeys("Raja@1506$$$$$$");
+		driver.findElement(By.xpath("//input[@id='password']")).sendKeys(Constants.upass);
 	}
 	
 	public static void clickButton () {

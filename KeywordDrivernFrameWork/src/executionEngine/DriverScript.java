@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import config.ActionKeywords;
+import config.Constants;
 import utility.ExcelUtils;
 
 public class DriverScript {
@@ -16,8 +17,8 @@ public class DriverScript {
 	public static void main(String[] args) throws InterruptedException, IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		// TODO Auto-generated method stub
 		
-		String sPath = "C:\\Users\\Balasingh Nadar\\git\\KeywordDriven\\KeywordDrivernFrameWork\\src\\dataEngine\\DataEngine.xlsx";	
-		ExcelUtils.setExcelFile(sPath, "Test Steps");
+		String sPath = Constants.excelPath;	
+		ExcelUtils.setExcelFile(sPath, Constants.sheet_TestSteps);
 		
 		actionKeywords = new ActionKeywords();
 		method = actionKeywords.getClass().getMethods();
