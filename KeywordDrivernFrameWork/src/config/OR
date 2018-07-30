@@ -1,0 +1,4 @@
+#Login Page
+txt_name = //input[@id='username']
+txt_pass = //input[@id='password']
+btn_login = //input[@id='Login']
