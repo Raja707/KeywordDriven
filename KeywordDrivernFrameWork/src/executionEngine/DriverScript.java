@@ -1,44 +1,42 @@
 package executionEngine;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import config.ActionKeywords;
 import utility.ExcelUtils;
 
 public class DriverScript {
-
-	public static void main(String[] args) throws InterruptedException, IOException {
+	
+	public static Method method[];
+	public static ActionKeywords actionKeywords;
+	public static String sActionKeyword;
+		
+	public static void main(String[] args) throws InterruptedException, IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		// TODO Auto-generated method stub
 		
 		String sPath = "C:\\Users\\Balasingh Nadar\\git\\KeywordDriven\\KeywordDrivernFrameWork\\src\\dataEngine\\DataEngine.xlsx";	
 		ExcelUtils.setExcelFile(sPath, "Test Steps");
 		
-		for (int iRow=1; iRow<=7; iRow++) {
-			String sActionKeyword = ExcelUtils.getCellData(iRow, 3);
+		actionKeywords = new ActionKeywords();
+		method = actionKeywords.getClass().getMethods();
+		
+		for(int iRow = 1; iRow <= 7; iRow++) {
+			sActionKeyword = ExcelUtils.getCellData(iRow, 3);
 			
-			if (sActionKeyword.equalsIgnoreCase("openBrowser")) {
-				ActionKeywords.openBrowser();
-			}
-			else if (sActionKeyword.equalsIgnoreCase("navigateUrl")) {
-				ActionKeywords.navigateUrl();
-			}
-			else if (sActionKeyword.equalsIgnoreCase("input_uname")) {
-				ActionKeywords.input_uname();
-			}
-			else if (sActionKeyword.equalsIgnoreCase("input_upass")) {
-				ActionKeywords.input_upass();
-			}
-			else if (sActionKeyword.equalsIgnoreCase("clickButton")) {
-				ActionKeywords.clickButton();
-			}
-			else if (sActionKeyword.equalsIgnoreCase("waitSometime")) {
-				ActionKeywords.waitSometime();
-			}
-			else if (sActionKeyword.equalsIgnoreCase("closeBrowser")) {
-				ActionKeywords.closeBrowser();
-			}
+			executeActions();
 		}
 
+	}
+
+	public static void executeActions() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		for(int i=0; i<method.length; i++) {
+			if(method[i].getName().equalsIgnoreCase(sActionKeyword)) {
+				method[i].invoke(actionKeywords);
+				break;
+			}
+		}
 	}
 
 }
