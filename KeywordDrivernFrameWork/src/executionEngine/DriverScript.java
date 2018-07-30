@@ -18,12 +18,17 @@ public class DriverScript {
 	public static String sActionKeyword;
 	public static Properties OR;
 	public static String sPageObject;
+	
+	public static int iTestStep;
+	public static int iTestLastStep;
+	public static String sTestCaseID;
+	public static String sRunMode;
 		
 	public static void main(String[] args) throws InterruptedException, IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		// TODO Auto-generated method stub
 		
 		String sPath = Constants.excelPath;	
-		ExcelUtils.setExcelFile(sPath, Constants.sheet_TestSteps);
+		ExcelUtils.setExcelFile(sPath);
 		
 		String sORPath = Constants.orPath;
 		FileInputStream fis = new FileInputStream(new File(sORPath));
@@ -33,13 +38,32 @@ public class DriverScript {
 		actionKeywords = new ActionKeywords();
 		method = actionKeywords.getClass().getMethods();
 		
-		for(int iRow = 1; iRow <= 7; iRow++) {
-			sActionKeyword = ExcelUtils.getCellData(iRow, Constants.col_actionkeyword);
-			sPageObject = ExcelUtils.getCellData(iRow, Constants.col_pageObject);
-			
-			executeActions();
+		execute_TestCase();
+		
+	}
+	
+	public static void execute_TestCase() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		int iTotalTestCases = ExcelUtils.getRowCount(Constants.sheet_TestCases);
+		
+		for(int iTotalTestCase = 1; iTotalTestCase < iTotalTestCases; iTotalTestCase++) {
+			sTestCaseID = ExcelUtils.getCellData(iTotalTestCase, Constants.col_TCID, Constants.sheet_TestCases);
+			sRunMode = ExcelUtils.getCellData(iTotalTestCase, Constants.col_runmode, Constants.sheet_TestCases);
+						
+			if(sRunMode.equals("Yes")) {
+				iTestStep = ExcelUtils.getRowContains(Constants.sheet_TestSteps, Constants.col_TCID, sTestCaseID);
+				iTestLastStep = ExcelUtils.getTestStepsCount(Constants.sheet_TestSteps, sTestCaseID, iTestStep);
+				
+				System.out.println(iTestStep);
+				System.out.println(iTestLastStep);
+				
+				for(; iTestStep < iTestLastStep; iTestStep++) {
+					sActionKeyword = ExcelUtils.getCellData(iTestStep, Constants.col_actionkeyword, Constants.sheet_TestSteps);
+					sPageObject = ExcelUtils.getCellData(iTestStep, Constants.col_pageObject, Constants.sheet_TestSteps);
+					
+					executeActions();
+				}
+			}
 		}
-
 	}
 
 	public static void executeActions() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {

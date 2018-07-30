@@ -17,7 +17,9 @@ public class Constants {
 	public static final int col_TSID = 1;
 	public static final int col_pageObject = 3;
 	public static final int col_actionkeyword = 4;
+	public static final int col_runmode = 2;
 	
 	//Excel Sheets in Workbook
 	public static final String sheet_TestSteps = "Test Steps";
+	public static final String sheet_TestCases = "Test Cases";
 }
