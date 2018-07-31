@@ -25,6 +25,7 @@ public class DriverScript {
 	public static String sRunMode;
 	
 	public static boolean bResult;
+	public static String sData;
 		
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -74,9 +75,10 @@ public class DriverScript {
 				for(; iTestStep < iTestLastStep; iTestStep++) {
 					sActionKeyword = ExcelUtils.getCellData(iTestStep, Constants.col_actionkeyword, Constants.sheet_TestSteps);
 					sPageObject = ExcelUtils.getCellData(iTestStep, Constants.col_pageObject, Constants.sheet_TestSteps);
+					sData = ExcelUtils.getCellData(iTestStep, Constants.col_DataSet, Constants.sheet_TestSteps);
 					
 					executeActions();
-					System.out.println(bResult);
+					
 					if(bResult == false) {
 						ExcelUtils.setCellData(Constants.sheet_TestCases, iTestCase, Constants.col_TestCases_results, Constants.keyword_FAIL);
 						Log.endTestCase(sTestCaseID);
@@ -98,7 +100,7 @@ public class DriverScript {
 		try {
 			for(int i=0; i<method.length; i++) {
 				if(method[i].getName().equalsIgnoreCase(sActionKeyword)) {
-					method[i].invoke(actionKeywords,sPageObject);
+					method[i].invoke(actionKeywords,sPageObject,sData);
 					
 					if(bResult == true) {
 						ExcelUtils.setCellData(Constants.sheet_TestSteps, iTestStep, Constants.col_TestSteps_results, Constants.keyword_PASS);
@@ -106,7 +108,7 @@ public class DriverScript {
 					}
 					else {
 						ExcelUtils.setCellData(Constants.sheet_TestSteps, iTestStep, Constants.col_TestSteps_results, Constants.keyword_FAIL);
-						ActionKeywords.closeBrowser("");
+						ActionKeywords.closeBrowser("","");
 						break;
 					}
 					

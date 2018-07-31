@@ -20,8 +20,9 @@ public class Constants {
 	
 	public static final int col_runmode = 2;
 	
-	public static final int col_TestSteps_results = 5;
+	public static final int col_TestSteps_results = 6;
 	public static final int col_TestCases_results = 3;
+	public static final int col_DataSet = 5;
 	
 	//Excel Sheets in Workbook
 	public static final String sheet_TestSteps = "Test Steps";

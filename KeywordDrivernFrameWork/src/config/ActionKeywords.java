@@ -13,11 +13,23 @@ public class ActionKeywords {
 	
 	static WebDriver driver;
 	
-	public static void openBrowser(String object) {	
+	public static void openBrowser(String object, String data) {	
 		try {
-			Log.info("Opening Browser Chrome");
-			System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
-			driver = new ChromeDriver();
+			Log.info("Opening Browser "+data);
+			
+			if (data.equalsIgnoreCase("chrome")) {
+				System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"\\Drivers\\chromedriver.exe");
+				driver = new ChromeDriver();
+			}
+			else if (data.equalsIgnoreCase("firefox")) {
+				System.setProperty("webdriver.gecko.driver",System.getProperty("user.dir")+"\\Drivers\\geckodriver.exe");
+				driver = new ChromeDriver();
+			}
+			else if (data.equalsIgnoreCase("IE")) {
+				System.setProperty("webdriver.ie.driver",System.getProperty("user.dir")+"\\Drivers\\IEDriverServer.exe");
+				driver = new ChromeDriver();
+			}
+			
 			driver.manage().window().maximize();
 		} 
 		catch (Exception e) {
@@ -26,7 +38,7 @@ public class ActionKeywords {
 		}
 	}
 	
-	public static void navigateUrl (String object) {	
+	public static void navigateUrl (String object, String data) {	
 		try {
 			Log.info("Navigate to Salesforce URL");
 			driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
@@ -38,10 +50,10 @@ public class ActionKeywords {
 		}
 	}
 	
-	public static void input_uname (String object) {
+	public static void input (String object, String data) {
 		try {
-			Log.info("Enter the values for "+object);
-			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(Constants.uname);
+			Log.info("Enter the values for "+object+" "+data);
+			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(data);
 		} 
 		catch (Exception e) {
 			Log.error("Not able to input the values "+e.getMessage());
@@ -49,18 +61,18 @@ public class ActionKeywords {
 		}
 	}
 	
-	public static void input_upass (String object) {
-		try {
-			Log.info("Enter the values for "+object);
-			driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(Constants.upass);
-		} 
-		catch (Exception e) {
-			Log.error("Not able to input the values "+e.getMessage());
-			DriverScript.bResult=false;
-		}
-	}
+						/*public static void input_upass (String object, String data) {
+							try {
+								Log.info("Enter the values for "+object);
+								driver.findElement(By.xpath(OR.getProperty(object))).sendKeys(Constants.upass);
+							} 
+							catch (Exception e) {
+								Log.error("Not able to input the values "+e.getMessage());
+								DriverScript.bResult=false;
+							}
+						}*/
 	
-	public static void click (String object) {
+	public static void click (String object, String data) {
 		try {
 			Log.info("Clicking the values for "+object);
 			driver.findElement(By.xpath(OR.getProperty(object))).click();
@@ -71,7 +83,7 @@ public class ActionKeywords {
 		}
 	}
 	
-	public static void waitSometime (String object) throws InterruptedException {
+	public static void waitSometime (String object, String data) {
 		try {
 			Log.info("Waiting for 5 seconds");
 			Thread.sleep(5000);
@@ -82,7 +94,7 @@ public class ActionKeywords {
 		}
 	}
 	
-	public static void closeBrowser (String object) {
+	public static void closeBrowser (String object, String data) {
 		try {
 			Log.info("Closing the browser");
 			driver.quit();

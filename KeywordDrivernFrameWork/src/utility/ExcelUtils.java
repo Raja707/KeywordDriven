@@ -2,9 +2,8 @@ package utility;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
+
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -118,7 +117,7 @@ public class ExcelUtils {
 			FileOutputStream fos = new FileOutputStream(new File(Constants.excelPath));
 			wb.write(fos);
 			wb.close();
-			wb = new XSSFWorkbook(new FileInputStream(new File(Constants.excelPath)));
+			ExcelUtils.setExcelFile(Constants.excelPath);
 		} 
 		catch (Exception e) {
 			Log.error("Not able to set data "+e.getMessage());
