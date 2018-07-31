@@ -17,9 +17,17 @@ public class Constants {
 	public static final int col_TSID = 1;
 	public static final int col_pageObject = 3;
 	public static final int col_actionkeyword = 4;
+	
 	public static final int col_runmode = 2;
+	
+	public static final int col_TestSteps_results = 5;
+	public static final int col_TestCases_results = 3;
 	
 	//Excel Sheets in Workbook
 	public static final String sheet_TestSteps = "Test Steps";
 	public static final String sheet_TestCases = "Test Cases";
+	
+	//Pass and Fail
+	public static final String keyword_PASS = "PASS";
+	public static final String keyword_FAIL = "FAIL";
 }

@@ -2,7 +2,12 @@ package utility;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -14,6 +19,7 @@ public class ExcelUtils {
 	public static XSSFWorkbook wb;
 	public static XSSFSheet sheet;
 	public static XSSFCell cell;
+	public static XSSFRow row;
 	public static File src;
 	
 	public static void setExcelFile (String path) {
@@ -91,6 +97,33 @@ public class ExcelUtils {
 			DriverScript.bResult = false;
 			return 0;
 		}
+		
+	}
+	
+	public static void setCellData (String sheetName, int rowNum, int colNum, String sResult) {
+		try {
+			sheet = wb.getSheet(sheetName);
+			row = sheet.getRow(rowNum);
+			cell = row.getCell(colNum);
+			System.out.println(cell);
+			
+			if(cell == null) {
+				cell = row.createCell(colNum);
+				cell.setCellValue(sResult);
+			}
+			else {
+				cell.setCellValue(sResult);
+			}
+			
+			FileOutputStream fos = new FileOutputStream(new File(Constants.excelPath));
+			wb.write(fos);
+			wb.close();
+			wb = new XSSFWorkbook(new FileInputStream(new File(Constants.excelPath)));
+		} 
+		catch (Exception e) {
+			Log.error("Not able to set data "+e.getMessage());
+			DriverScript.bResult = false;
+		} 
 		
 	}
 	

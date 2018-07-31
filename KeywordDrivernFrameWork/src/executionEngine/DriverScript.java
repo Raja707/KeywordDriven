@@ -55,24 +55,40 @@ public class DriverScript {
 	public static void execute_TestCase() {
 		int iTotalTestCases = ExcelUtils.getRowCount(Constants.sheet_TestCases);
 		
-		for(int iTotalTestCase = 1; iTotalTestCase < iTotalTestCases; iTotalTestCase++) {
-			sTestCaseID = ExcelUtils.getCellData(iTotalTestCase, Constants.col_TCID, Constants.sheet_TestCases);
-			sRunMode = ExcelUtils.getCellData(iTotalTestCase, Constants.col_runmode, Constants.sheet_TestCases);
+		for(int iTestCase = 1; iTestCase < iTotalTestCases; iTestCase++) {
+			bResult = true;
+			
+			sTestCaseID = ExcelUtils.getCellData(iTestCase, Constants.col_TCID, Constants.sheet_TestCases);
+			sRunMode = ExcelUtils.getCellData(iTestCase, Constants.col_runmode, Constants.sheet_TestCases);
 						
 			if(sRunMode.equals("Yes")) {
 				iTestStep = ExcelUtils.getRowContains(Constants.sheet_TestSteps, Constants.col_TCID, sTestCaseID);
-				iTestLastStep = ExcelUtils.getTestStepsCount(Constants.sheet_TestSteps, sTestCaseID, iTestStep);
+				iTestLastStep = ExcelUtils.getTestStepsCount(Constants.sheet_TestSteps, sTestCaseID, iTestStep);				
+				
+				System.out.println(iTestStep);
+				System.out.println(iTestLastStep);
 				
 				Log.startTestCase(sTestCaseID);
+				bResult = true;
 				
 				for(; iTestStep < iTestLastStep; iTestStep++) {
 					sActionKeyword = ExcelUtils.getCellData(iTestStep, Constants.col_actionkeyword, Constants.sheet_TestSteps);
 					sPageObject = ExcelUtils.getCellData(iTestStep, Constants.col_pageObject, Constants.sheet_TestSteps);
 					
 					executeActions();
+					System.out.println(bResult);
+					if(bResult == false) {
+						ExcelUtils.setCellData(Constants.sheet_TestCases, iTestCase, Constants.col_TestCases_results, Constants.keyword_FAIL);
+						Log.endTestCase(sTestCaseID);
+						break;
+					}
 				}
 				
-				Log.endTestCase(sTestCaseID);
+				if(bResult == true) {
+					ExcelUtils.setCellData(Constants.sheet_TestCases, iTestCase, Constants.col_TestCases_results, Constants.keyword_PASS);
+					Log.endTestCase(sTestCaseID);
+				}				
+				
 			}
 		}
 	}
@@ -83,7 +99,17 @@ public class DriverScript {
 			for(int i=0; i<method.length; i++) {
 				if(method[i].getName().equalsIgnoreCase(sActionKeyword)) {
 					method[i].invoke(actionKeywords,sPageObject);
-					break;
+					
+					if(bResult == true) {
+						ExcelUtils.setCellData(Constants.sheet_TestSteps, iTestStep, Constants.col_TestSteps_results, Constants.keyword_PASS);
+						break;
+					}
+					else {
+						ExcelUtils.setCellData(Constants.sheet_TestSteps, iTestStep, Constants.col_TestSteps_results, Constants.keyword_FAIL);
+						ActionKeywords.closeBrowser("");
+						break;
+					}
+					
 				}
 			}
 		} 
