@@ -6,10 +6,11 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Properties;
-
+import org.apache.log4j.xml.DOMConfigurator;
 import config.ActionKeywords;
 import config.Constants;
 import utility.ExcelUtils;
+import utility.Log;
 
 public class DriverScript {
 	
@@ -30,13 +31,15 @@ public class DriverScript {
 		String sPath = Constants.excelPath;	
 		ExcelUtils.setExcelFile(sPath);
 		
+		DOMConfigurator.configure("log4j.xml");	
+		
 		String sORPath = Constants.orPath;
 		FileInputStream fis = new FileInputStream(new File(sORPath));
 		OR = new Properties(System.getProperties());
 		OR.load(fis);
 		
 		actionKeywords = new ActionKeywords();
-		method = actionKeywords.getClass().getMethods();
+		method = actionKeywords.getClass().getMethods();			
 		
 		execute_TestCase();
 		
@@ -53,8 +56,7 @@ public class DriverScript {
 				iTestStep = ExcelUtils.getRowContains(Constants.sheet_TestSteps, Constants.col_TCID, sTestCaseID);
 				iTestLastStep = ExcelUtils.getTestStepsCount(Constants.sheet_TestSteps, sTestCaseID, iTestStep);
 				
-				System.out.println(iTestStep);
-				System.out.println(iTestLastStep);
+				Log.startTestCase(sTestCaseID);
 				
 				for(; iTestStep < iTestLastStep; iTestStep++) {
 					sActionKeyword = ExcelUtils.getCellData(iTestStep, Constants.col_actionkeyword, Constants.sheet_TestSteps);
@@ -62,6 +64,8 @@ public class DriverScript {
 					
 					executeActions();
 				}
+				
+				Log.endTestCase(sTestCaseID);
 			}
 		}
 	}

@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="F:/VMB/Jars/poi-ooxml-3.17.jar"/>
 	<classpathentry kind="lib" path="F:/VMB/Jars/commons-collections4-4.1.jar"/>
 	<classpathentry kind="lib" path="F:/VMB/Jars/poi-ooxml-schemas-3.17.jar"/>
+	<classpathentry kind="lib" path="F:/VMB/Jars/log4j-1.2.17.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
