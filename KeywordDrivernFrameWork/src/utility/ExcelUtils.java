@@ -21,6 +21,7 @@ public class ExcelUtils {
 	public static XSSFRow row;
 	public static File src;
 	
+	//Function - Configuring file of Excel File
 	public static void setExcelFile (String path) {
 		try {
 			src = new File (path);
@@ -33,6 +34,7 @@ public class ExcelUtils {
 		}			
 	}
 	
+	//Function - Getting cell data
 	public static String getCellData (int rowNum, int colNum, String sheetName) {
 		try {
 			sheet = wb.getSheet(sheetName);
@@ -47,6 +49,7 @@ public class ExcelUtils {
 		}
 	}
 	
+	//Funtion - Getting the number of row count
 	public static int getRowCount (String sheetName) {
 		try {
 			sheet = wb.getSheet(sheetName);
@@ -60,6 +63,7 @@ public class ExcelUtils {
 		}
 	}
 
+	//Getting the start row which contains the TestCaseID
 	public static int getRowContains (String sheetName, int colNum, String sTestCaseName ) {
 		try {
 			int i;
@@ -77,6 +81,7 @@ public class ExcelUtils {
 		}
 	}
 	
+	//Getting the number of Test Steps for a particular TestCaseID
 	public static int getTestStepsCount (String sheetName, String sTestCaseID, int iTestCaseStart ) {
 		try {
 			for(int i = iTestCaseStart; i<ExcelUtils.getRowCount(sheetName); i++) {
@@ -87,6 +92,7 @@ public class ExcelUtils {
 				}
 			}
 			
+			//for the last TestCase this will work
 			sheet = wb.getSheet(sheetName);
 			int number = sheet.getLastRowNum()+1;
 			return number;
@@ -99,6 +105,7 @@ public class ExcelUtils {
 		
 	}
 	
+	//Setting the data to the cell by creating a cell or replacing the data
 	public static void setCellData (String sheetName, int rowNum, int colNum, String sResult) {
 		try {
 			sheet = wb.getSheet(sheetName);
@@ -117,6 +124,8 @@ public class ExcelUtils {
 			FileOutputStream fos = new FileOutputStream(new File(Constants.excelPath));
 			wb.write(fos);
 			wb.close();
+			
+			//We should open the excel file again once it is closed so that the next row is iterated
 			ExcelUtils.setExcelFile(Constants.excelPath);
 		} 
 		catch (Exception e) {

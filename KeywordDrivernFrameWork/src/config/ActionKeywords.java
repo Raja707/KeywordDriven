@@ -13,6 +13,10 @@ public class ActionKeywords {
 	
 	static WebDriver driver;
 	
+	//Action Keyword - openBrowser
+	//object - comes from Page Object from TestSteps sheet and redirected to OR file
+	//data = comes from Data Set from TestSteps sheet
+	//data and object can be blank
 	public static void openBrowser(String object, String data) {	
 		try {
 			Log.info("Opening Browser "+data);
@@ -38,6 +42,7 @@ public class ActionKeywords {
 		}
 	}
 	
+	//Action Keyword - navigateUrl
 	public static void navigateUrl (String object, String data) {	
 		try {
 			Log.info("Navigate to Salesforce URL");
@@ -50,6 +55,7 @@ public class ActionKeywords {
 		}
 	}
 	
+	//Action Keyword - input
 	public static void input (String object, String data) {
 		try {
 			Log.info("Enter the values for "+object+" "+data);
@@ -72,6 +78,7 @@ public class ActionKeywords {
 							}
 						}*/
 	
+	//Action Keyword - click
 	public static void click (String object, String data) {
 		try {
 			Log.info("Clicking the values for "+object);
@@ -83,6 +90,7 @@ public class ActionKeywords {
 		}
 	}
 	
+	//Action Keyword - waitSometime
 	public static void waitSometime (String object, String data) {
 		try {
 			Log.info("Waiting for 5 seconds");
@@ -94,6 +102,7 @@ public class ActionKeywords {
 		}
 	}
 	
+	//Action Keyword - closeBrowser
 	public static void closeBrowser (String object, String data) {
 		try {
 			Log.info("Closing the browser");
