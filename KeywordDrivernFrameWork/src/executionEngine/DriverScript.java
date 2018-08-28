@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.Method;
 import java.util.Properties;
-
 import org.apache.log4j.xml.DOMConfigurator;
+import org.testng.annotations.Test;
 import config.ActionKeywords;
 import config.Constants;
 import utility.ExcelUtils;
@@ -27,8 +27,9 @@ public class DriverScript {
 	
 	public static boolean bResult;
 	public static String sData;
-		
-	public static void main(String[] args) {
+	
+	@Test
+	public void main() {
 		// TODO Auto-generated method stub
 		
 		try {
